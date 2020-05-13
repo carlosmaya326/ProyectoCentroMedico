@@ -1,6 +1,3 @@
-/*
-    Prueba de repositorio
-*/
 package Clases;
 
 import DB.Conexion;
