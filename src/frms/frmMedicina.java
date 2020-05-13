@@ -181,7 +181,7 @@ public class frmMedicina extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if(txtNombre.getText().equals("") || txtDetalle.getText().equals("")){
+        if(txtNombre.getText().equals("") || txtFecha.getDate() == null || txtDetalle.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Verifique que todos los campos no esten vacios");
         }else{
             String anio = Integer.toString(txtFecha.getCalendar().get(Calendar.YEAR));
