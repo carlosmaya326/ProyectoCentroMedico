@@ -312,7 +312,7 @@ public class vMedicina extends javax.swing.JFrame {
                     String qDelete = "DELETE FROM Medicina WHERE MedicinaId = '"+value+"'";
                     state.executeUpdate(qDelete);
                     
-                    JOptionPane.showMessageDialog(this, "Usuario Eliminado Exitosamente");
+                    JOptionPane.showMessageDialog(this, "Medicina Eliminada Exitosamente");
                     
                     this.refrescarTabla();
                 }catch(Exception e){

@@ -195,12 +195,10 @@ public class frmUsuario extends javax.swing.JFrame {
             }else if(cbbTipoUsuario.getSelectedItem().equals("Paciente")){
                 rol = "P";
             }
-            Usuario usuario;
-            if(opcion.equals("crear")){
-                usuarioId = -1;
-            }
-            usuario = new Usuario(usuarioId, rol, Integer.parseInt(txtDocumento.getText()), txtUsuario.getText(), txtContrasena.getText());
-            int resp = usuario.guardar(usuario);
+            Usuario usuario = new Usuario(rol, Integer.parseInt(txtDocumento.getText()), txtUsuario.getText(), txtContrasena.getText());
+            usuario.setId(usuarioId);
+            
+            int resp = usuario.guardar();
             
             vUsuario ventana = new vUsuario();
             ventana.lblUsuario.setText("Paco");

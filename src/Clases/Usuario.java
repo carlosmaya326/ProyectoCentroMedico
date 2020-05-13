@@ -4,7 +4,6 @@ import DB.Conexion;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Objects;
 
 public class Usuario {
     int id;
@@ -13,15 +12,14 @@ public class Usuario {
     String usuario;
     String contrasena;
     
-    public Usuario(int id, String tipoUsuario, int documento, String usuario, String contrasena){
-        this.id = id;
+    public Usuario(String tipoUsuario, int documento, String usuario, String contrasena){
         this.tipoUsuario = tipoUsuario;
         this.documento = documento;
         this.usuario = usuario;
         this.contrasena = contrasena;
     }
     
-    public int guardar(Usuario usuario){
+    public int guardar(){
         try{
             Conexion con = new Conexion();
             Connection conexion = con.getConexion();
@@ -29,13 +27,13 @@ public class Usuario {
             Statement estado = conexion.createStatement();
             
             if(this.id == -1){
-                ResultSet sql = estado.executeQuery("SELECT COUNT(*) Cantidad FROM usuario WHERE Usuario = '"+usuario.usuario+"' OR Documento= '"+usuario.documento+"'");
+                ResultSet sql = estado.executeQuery("SELECT COUNT(*) Cantidad FROM usuario WHERE Usuario = '"+this.usuario+"' OR Documento= '"+this.documento+"'");
                 if(sql.next()){
                     if(sql.getInt("Cantidad") > 0){
                         return 3; //Si el usuario o el documento ya existen
                     }else{
                         String qInsert = "INSERT INTO usuario (Documento, Usuario, Contrasena, TipoUsuario, Estado) "
-                                + "VALUES('"+usuario.documento+"', '"+usuario.usuario+"', '"+usuario.contrasena+"', '"+usuario.tipoUsuario+"', 'A')";
+                                + "VALUES('"+this.documento+"', '"+this.usuario+"', '"+this.contrasena+"', '"+this.tipoUsuario+"', 'A')";
 
                         Statement query = conexion.createStatement();
 
@@ -45,11 +43,11 @@ public class Usuario {
                 }
             }else{
                 String qUpdate = "UPDATE usuario "
-                        + " SET Documento = '" + usuario.documento + "'"
-                        + " ,Usuario = '" + usuario.usuario + "'"
-                        + " ,Contrasena = '" + usuario.contrasena + "'"
-                        + " ,TipoUsuario = '" + usuario.tipoUsuario + "'"
-                        + " WHERE UsuarioId = '" + usuario.id + "'";
+                        + " SET Documento = '" + this.documento + "'"
+                        + " ,Usuario = '" + this.usuario + "'"
+                        + " ,Contrasena = '" + this.contrasena + "'"
+                        + " ,TipoUsuario = '" + this.tipoUsuario + "'"
+                        + " WHERE UsuarioId = '" + this.id + "'";
                 
                 System.out.println(qUpdate);
 
@@ -103,9 +101,5 @@ public class Usuario {
 
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
-    }
-    
-    public static boolean isNull(Object obj) {
-        return obj == null;
     }
 }
