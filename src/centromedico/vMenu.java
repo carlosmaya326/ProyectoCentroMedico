@@ -6,6 +6,8 @@
 package centromedico;
 
 import Clases.Usuario;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
 /**
@@ -20,6 +22,10 @@ public class vMenu extends javax.swing.JFrame {
     public vMenu() {
         initComponents();
         setLocationRelativeTo(this);
+        
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Images/logout.png"));
+        jButton2.setIcon(icono);
+
     }
     
     public vMenu(Usuario user) {
@@ -49,7 +55,7 @@ public class vMenu extends javax.swing.JFrame {
         lblLogo = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         menu = new javax.swing.JMenuBar();
         menuConfig = new javax.swing.JMenu();
         mUsuario = new javax.swing.JMenuItem();
@@ -85,7 +91,7 @@ public class vMenu extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -93,7 +99,7 @@ public class vMenu extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(lblUsuario)
                         .addComponent(jLabel2)
@@ -239,7 +245,7 @@ public class vMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

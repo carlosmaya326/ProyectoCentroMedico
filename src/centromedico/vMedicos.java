@@ -5,6 +5,8 @@
  */
 package centromedico;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Juan Carlos
@@ -17,6 +19,9 @@ public class vMedicos extends javax.swing.JFrame {
     public vMedicos() {
         initComponents();
         setLocationRelativeTo(this);
+        
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Images/logout.png"));
+        jButton1.setIcon(icono);
     }
 
     /**

@@ -11,6 +11,7 @@ import frms.frmUsuario;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -27,6 +28,9 @@ public class vUsuario extends javax.swing.JFrame {
     public vUsuario() {
         initComponents();
         setLocationRelativeTo(this);
+        
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Images/logout.png"));
+        jButton1.setIcon(icono);
         
         refrescarTabla();
     }

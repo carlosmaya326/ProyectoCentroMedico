@@ -10,6 +10,7 @@ import frms.frmMedicina;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,6 +26,10 @@ public class vMedicina extends javax.swing.JFrame {
     public vMedicina() {
         initComponents();
         setLocationRelativeTo(this);
+        
+        ImageIcon icono = new ImageIcon(getClass().getResource("/Images/logout.png"));
+        jButton1.setIcon(icono);
+        
         this.refrescarTabla();
     }
 
