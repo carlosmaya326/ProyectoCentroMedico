@@ -6,6 +6,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import centromedico.vUsuario;
 
 import Clases.Usuario;
@@ -19,9 +26,42 @@ public class frmUsuario extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(this);
         setResizable(false);
-        
+        System.out.println(usuarioId);
         this.opcion = opcion;
         this.usuarioId = usuarioId;
+        
+        try{
+           if(opcion.equals("editar")){
+                Conexion con = new Conexion();
+                Connection conexion = con.getConexion();
+                Statement estado = conexion.createStatement();     
+                ResultSet qSelect = estado.executeQuery("SELECT * FROM Usuario WHERE UsuarioId = '"+this.usuarioId+"'");
+
+                if(qSelect.next()){
+                    switch(qSelect.getString("TipoUsuario")){
+                        case "A":
+                            cbbTipoUsuario.setSelectedItem("Adminstrador");
+                        break;
+                        case "P":
+                            cbbTipoUsuario.setSelectedItem("Paciente");
+                        break;
+                        case "M":
+                            cbbTipoUsuario.setSelectedItem("Médico");
+                        break;
+                    }
+                    
+                    txtDocumento.setText(qSelect.getString("Documento"));
+                    txtUsuario.setText(qSelect.getString("Usuario"));
+                    txtContrasena.setText(qSelect.getString("Contrasena"));
+                }else{
+                    System.out.println("No se encontraron registros");
+                }
+            }
+
+        }catch(IllegalAccessException | InstantiationException | SQLException e){
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -63,6 +103,11 @@ public class frmUsuario extends javax.swing.JFrame {
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setText("Documento");
@@ -171,6 +216,12 @@ public class frmUsuario extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        vUsuario ventana = new vUsuario();
+        ventana.show();
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments

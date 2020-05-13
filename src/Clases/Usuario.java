@@ -46,10 +46,12 @@ public class Usuario {
             }else{
                 String qUpdate = "UPDATE usuario "
                         + " SET Documento = '" + usuario.documento + "'"
-                        + " ,SET Usuario = '" + usuario.usuario + "'"
-                        + " ,SET Contrasena = '" + usuario.contrasena + "'"
-                        + " ,SET TipoUsuario = '" + usuario.tipoUsuario + "'"
+                        + " ,Usuario = '" + usuario.usuario + "'"
+                        + " ,Contrasena = '" + usuario.contrasena + "'"
+                        + " ,TipoUsuario = '" + usuario.tipoUsuario + "'"
                         + " WHERE UsuarioId = '" + usuario.id + "'";
+                
+                System.out.println(qUpdate);
 
                 Statement query = conexion.createStatement();
 

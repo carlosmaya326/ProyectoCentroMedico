@@ -28,52 +28,7 @@ public class vUsuario extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(this);
         
-        DefaultTableModel modelo;
-        modelo = new DefaultTableModel(){
-            public boolean isCellEditable(int row, int column){
-                return false;
-            }
-        };
-        try{
-            Conexion con = new Conexion();
-            Connection conexion=con.getConexion();
-
-            Statement estado = conexion.createStatement();
-           
-           String query = "SELECT\n" +
-            "	UsuarioId\n" +
-            "	,Usuario\n" +
-            "	,CASE TipoUsuario \n" +
-            "		WHEN 'A' THEN 'Administrador'\n" +
-            "		WHEN 'P' THEN 'Paciente'\n" +
-            "		WHEN 'M' THEN 'Médico'\n" +
-            "	END TipoUsuario\n" +
-            "	,CASE Estado\n" +
-            "		WHEN 'A' THEN 'Activo'\n" +
-            "		ELSE 'Inactivo'\n" +
-            "	END Estado	\n" +
-            "FROM Usuario";
-                      
-           ResultSet res = estado.executeQuery(query);
-           
-            modelo.addColumn("Id");
-            modelo.addColumn("Usuario");
-            modelo.addColumn("Tipo Usuario");
-            modelo.addColumn("Estado");
-
-            while(res.next()){
-                Object []object = new Object[5];
-                object[0] = res.getString("UsuarioId");
-                object[1] = res.getString("Usuario");
-                object[2] = res.getString("TipoUsuario");
-                object[3] = res.getString("Estado");
-                modelo.addRow(object);
-            }
-            tblUsuarios.setModel(modelo);
-        }catch(Exception e){
-            System.out.println("Error");
-            System.out.println(e.getMessage());
-        }
+        refrescarTabla();
     }
 
     @SuppressWarnings("unchecked")
@@ -186,6 +141,11 @@ public class vUsuario extends javax.swing.JFrame {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         lblUsuario1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblUsuario1.setText("Usuarios");
@@ -338,6 +298,89 @@ public class vUsuario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int cantidad = tblUsuarios.getSelectedRowCount();
+
+        if(cantidad == 0){
+            JOptionPane.showMessageDialog(this, "No ha seleccionado al ususario");
+        }else if(cantidad > 1){
+            JOptionPane.showMessageDialog(this, "Seleccione solo un usuario");
+        }else{
+            int column = 0;
+            int row = tblUsuarios.getSelectedRow();
+            int value = Integer.parseInt(tblUsuarios.getModel().getValueAt(row, column).toString());
+            
+            int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!"
+                    , JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+            
+            if(resp == 0){
+                try{
+                    Conexion con = new Conexion();
+                    Connection conexion = con.getConexion();
+                    
+                    Statement state = conexion.createStatement();
+                    
+                    String qDelete = "DELETE FROM usuario WHERE UsuarioId = '"+value+"'";
+                    state.executeUpdate(qDelete);
+                    
+                    JOptionPane.showMessageDialog(this, "Usuario Eliminado Exitosamente");
+                    
+                    this.refrescarTabla();
+                }catch(Exception e){
+                    System.out.println("Error");
+                }
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    public void refrescarTabla(){
+        DefaultTableModel modelo;
+        modelo = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        try{
+            Conexion con = new Conexion();
+            Connection conexion=con.getConexion();
+
+            Statement estado = conexion.createStatement();
+           
+           String query = "SELECT\n" +
+            "	UsuarioId\n" +
+            "	,Usuario\n" +
+            "	,CASE TipoUsuario \n" +
+            "		WHEN 'A' THEN 'Administrador'\n" +
+            "		WHEN 'P' THEN 'Paciente'\n" +
+            "		WHEN 'M' THEN 'Médico'\n" +
+            "	END TipoUsuario\n" +
+            "	,CASE Estado\n" +
+            "		WHEN 'A' THEN 'Activo'\n" +
+            "		ELSE 'Inactivo'\n" +
+            "	END Estado	\n" +
+            "FROM Usuario";
+                      
+           ResultSet res = estado.executeQuery(query);
+           
+            modelo.addColumn("Id");
+            modelo.addColumn("Usuario");
+            modelo.addColumn("Tipo Usuario");
+            modelo.addColumn("Estado");
+
+            while(res.next()){
+                Object []object = new Object[5];
+                object[0] = res.getString("UsuarioId");
+                object[1] = res.getString("Usuario");
+                object[2] = res.getString("TipoUsuario");
+                object[3] = res.getString("Estado");
+                modelo.addRow(object);
+            }
+            tblUsuarios.setModel(modelo);
+        }catch(Exception e){
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
+    }
     /**
      * @param args the command line arguments
      */
