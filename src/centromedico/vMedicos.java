@@ -63,8 +63,6 @@ public class vMedicos extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel2.setText("Centro Médico tu Salud - ");
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logout.png"))); // NOI18N
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -227,19 +225,19 @@ public class vMedicos extends javax.swing.JFrame {
 
     private void mUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mUsuarioActionPerformed
         vUsuario ventana = new vUsuario();
-        ventana.show();
+        ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mUsuarioActionPerformed
 
     private void mMedicinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicinaActionPerformed
         vMedicina ventana = new vMedicina();
-        ventana.show();
+        ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mMedicinaActionPerformed
 
     private void mRolMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mRolMedicoActionPerformed
         vRolMedico ventana = new vRolMedico();
-        ventana.show();
+        ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mRolMedicoActionPerformed
 

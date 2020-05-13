@@ -5,6 +5,14 @@
  */
 package centromedico;
 
+import DB.Conexion;
+import frms.frmMedicina;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Juan Carlos
@@ -17,6 +25,7 @@ public class vMedicina extends javax.swing.JFrame {
     public vMedicina() {
         initComponents();
         setLocationRelativeTo(this);
+        this.refrescarTabla();
     }
 
     /**
@@ -35,7 +44,7 @@ public class vMedicina extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblUsuario = new javax.swing.JTable();
+        tblMedicina = new javax.swing.JTable();
         btnRegistrar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -62,8 +71,6 @@ public class vMedicina extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel2.setText("Centro Médico tu Salud - ");
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logout.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -93,7 +100,7 @@ public class vMedicina extends javax.swing.JFrame {
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
-        tblUsuario.setModel(new javax.swing.table.DefaultTableModel(
+        tblMedicina.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -109,19 +116,34 @@ public class vMedicina extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblUsuario);
-        if (tblUsuario.getColumnModel().getColumnCount() > 0) {
-            tblUsuario.getColumnModel().getColumn(0).setResizable(false);
-            tblUsuario.getColumnModel().getColumn(1).setResizable(false);
-            tblUsuario.getColumnModel().getColumn(2).setResizable(false);
-            tblUsuario.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPane1.setViewportView(tblMedicina);
+        if (tblMedicina.getColumnModel().getColumnCount() > 0) {
+            tblMedicina.getColumnModel().getColumn(0).setResizable(false);
+            tblMedicina.getColumnModel().getColumn(1).setResizable(false);
+            tblMedicina.getColumnModel().getColumn(2).setResizable(false);
+            tblMedicina.getColumnModel().getColumn(3).setResizable(false);
         }
 
         btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         lblUsuario1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblUsuario1.setText("Medicina");
@@ -226,22 +248,122 @@ public class vMedicina extends javax.swing.JFrame {
 
     private void mUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mUsuarioActionPerformed
         vUsuario ventana = new vUsuario();
-        ventana.show();
+        ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mUsuarioActionPerformed
 
     private void mRolMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mRolMedicoActionPerformed
         vRolMedico ventana = new vRolMedico();
-        ventana.show();
+        ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mRolMedicoActionPerformed
 
     private void mMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicosActionPerformed
         vMedicos ventana = new vMedicos();
-        ventana.show();
+        ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mMedicosActionPerformed
 
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        frmMedicina ventana = new frmMedicina("crear", -1);
+        ventana.show();
+        dispose();
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        int cantidad = tblMedicina.getSelectedRowCount();
+        if(cantidad == 0){
+            JOptionPane.showMessageDialog(this, "No ha seleccionado la medicina");
+        }else if(cantidad > 1){
+            JOptionPane.showMessageDialog(this, "Seleccione solo una medicina");
+        }else{
+            int column = 0;
+            int row = tblMedicina.getSelectedRow();
+            int value = Integer.parseInt(tblMedicina.getModel().getValueAt(row, column).toString());
+
+            frmMedicina ventana = new frmMedicina("editar", value);
+            ventana.show();
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int cantidad = tblMedicina.getSelectedRowCount();
+
+        if(cantidad == 0){
+            JOptionPane.showMessageDialog(this, "No ha seleccionado la medicina");
+        }else if(cantidad > 1){
+            JOptionPane.showMessageDialog(this, "Seleccione solo una medicina");
+        }else{
+            int column = 0;
+            int row = tblMedicina.getSelectedRow();
+            int value = Integer.parseInt(tblMedicina.getModel().getValueAt(row, column).toString());
+            
+            int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!"
+                    , JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+            
+            if(resp == 0){
+                try{
+                    Conexion con = new Conexion();
+                    Connection conexion = con.getConexion();
+                    
+                    Statement state = conexion.createStatement();
+                    
+                    String qDelete = "DELETE FROM Medicina WHERE MedicinaId = '"+value+"'";
+                    state.executeUpdate(qDelete);
+                    
+                    JOptionPane.showMessageDialog(this, "Usuario Eliminado Exitosamente");
+                    
+                    this.refrescarTabla();
+                }catch(Exception e){
+                    System.out.println("Error");
+                }
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+    
+    public void refrescarTabla(){
+        DefaultTableModel modelo;
+        modelo = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        try{
+            Conexion con = new Conexion();
+            Connection conexion=con.getConexion();
+
+            Statement estado = conexion.createStatement();
+           
+           String query = "SELECT\n" +
+            "	MedicinaId\n" +
+            "	,Nombre\n" +
+            "   ,FechaCaducidad\n" +
+            "	,Detalle\n" +
+            " FROM Medicina";
+                      
+           ResultSet res = estado.executeQuery(query);
+           
+            modelo.addColumn("Id");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Fecha Caducidad");
+            modelo.addColumn("Detalle");
+
+            while(res.next()){
+                Object []object = new Object[5];
+                object[0] = res.getString("MedicinaId");
+                object[1] = res.getString("Nombre");
+                object[2] = res.getString("FechaCaducidad");
+                object[3] = res.getString("Detalle");
+                modelo.addRow(object);
+            }
+            tblMedicina.setModel(modelo);
+        }catch(Exception e){
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -273,7 +395,7 @@ public class vMedicina extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new vUsuario().setVisible(true);
+                new vMedicina().setVisible(true);
             }
         });
     }
@@ -300,6 +422,6 @@ public class vMedicina extends javax.swing.JFrame {
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuCita;
     private javax.swing.JMenu menuConfig;
-    private javax.swing.JTable tblUsuario;
+    private javax.swing.JTable tblMedicina;
     // End of variables declaration//GEN-END:variables
 }

@@ -203,13 +203,14 @@ public class frmUsuario extends javax.swing.JFrame {
             int resp = usuario.guardar(usuario);
             
             vUsuario ventana = new vUsuario();
+            ventana.lblUsuario.setText("Paco");
             if(resp == 1){
                 JOptionPane.showMessageDialog(null, "Registro guardado exitosamente");
-                ventana.show();
+                ventana.setVisible(true);
                 this.dispose();
             }else if(resp == 2){
                 JOptionPane.showMessageDialog(null, "Registro actualizado exitosamente");
-                ventana.show();
+                ventana.setVisible(true);
                 this.dispose();
             }else if(resp == 3){
                 JOptionPane.showMessageDialog(null, "El usario ya existe");

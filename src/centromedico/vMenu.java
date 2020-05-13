@@ -5,6 +5,7 @@
  */
 package centromedico;
 
+import Clases.Usuario;
 import javax.swing.JMenuItem;
 
 /**
@@ -14,10 +15,24 @@ import javax.swing.JMenuItem;
 public class vMenu extends javax.swing.JFrame {
 
     private JMenuItem item;
+    public Usuario user;
     
     public vMenu() {
         initComponents();
         setLocationRelativeTo(this);
+    }
+    
+    public vMenu(Usuario user) {
+        initComponents();
+        setLocationRelativeTo(this);
+        
+        this.user = user;
+        if(user.getTipoUsuario().equals("P")){
+            mUsuario.setVisible(false);
+            mMedicina.setVisible(false);
+            mRolMedico.setVisible(false);
+            mMedicos.setVisible(false);
+        }
     }
 
     /**
@@ -57,8 +72,6 @@ public class vMenu extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel2.setText("Centro Médico tu Salud - ");
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logout.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -168,25 +181,25 @@ public class vMenu extends javax.swing.JFrame {
 
     private void mUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mUsuarioActionPerformed
         vUsuario ventana = new vUsuario();
-        ventana.show();
+        ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mUsuarioActionPerformed
 
     private void mMedicinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicinaActionPerformed
         vMedicina ventana = new vMedicina();
-        ventana.show();
+        ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mMedicinaActionPerformed
 
     private void mRolMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mRolMedicoActionPerformed
         vRolMedico ventana = new vRolMedico();
-        ventana.show();
+        ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mRolMedicoActionPerformed
 
     private void mMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicosActionPerformed
         vMedicos ventana = new vMedicos();
-        ventana.show();
+        ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mMedicosActionPerformed
 
