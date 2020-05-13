@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -178,6 +179,11 @@ public class vUsuario extends javax.swing.JFrame {
         });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
 
@@ -310,10 +316,27 @@ public class vUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_mMedicosActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        frmUsuario ventana = new frmUsuario("crear", null);
+        frmUsuario ventana = new frmUsuario("crear", -1);
         ventana.show();
         dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        int cantidad = tblUsuarios.getSelectedRowCount();
+        if(cantidad == 0){
+            JOptionPane.showMessageDialog(this, "No ha seleccionado al ususario");
+        }else if(cantidad > 1){
+            JOptionPane.showMessageDialog(this, "Seleccione solo un usuario");
+        }else{
+            int column = 0;
+            int row = tblUsuarios.getSelectedRow();
+            int value = Integer.parseInt(tblUsuarios.getModel().getValueAt(row, column).toString());
+
+            frmUsuario ventana = new frmUsuario("editar", value);
+            ventana.show();
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments

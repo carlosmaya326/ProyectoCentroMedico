@@ -1,6 +1,3 @@
-/*
-    Vamos a ver si esto funciona
-*/
 package Clases;
 
 import DB.Conexion;

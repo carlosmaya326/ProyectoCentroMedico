@@ -14,14 +14,14 @@ import Clases.Usuario;
 public class frmUsuario extends javax.swing.JFrame {
 
     String opcion;
-    Usuario usuario;
-    public frmUsuario(String opcion, Usuario usuario) {
+    int usuarioId;
+    public frmUsuario(String opcion, int usuarioId) {
         initComponents();
         setLocationRelativeTo(this);
         setResizable(false);
         
         this.opcion = opcion;
-        this.usuario = usuario;
+        this.usuarioId = usuarioId;
     }
 
     @SuppressWarnings("unchecked")
@@ -150,10 +150,11 @@ public class frmUsuario extends javax.swing.JFrame {
             }else if(cbbTipoUsuario.getSelectedItem().equals("Paciente")){
                 rol = "P";
             }
-            
+            Usuario usuario;
             if(opcion.equals("crear")){
-                usuario = new Usuario(-1, rol, Integer.parseInt(txtDocumento.getText()), txtUsuario.getText(), txtContrasena.getText());
+                usuarioId = -1;
             }
+            usuario = new Usuario(usuarioId, rol, Integer.parseInt(txtDocumento.getText()), txtUsuario.getText(), txtContrasena.getText());
             int resp = usuario.guardar(usuario);
             
             vUsuario ventana = new vUsuario();
