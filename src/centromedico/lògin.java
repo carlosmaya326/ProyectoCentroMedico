@@ -41,12 +41,6 @@ public class lògin extends javax.swing.JFrame {
         txtUsuario.setFont(new Font("Tahoma",1,15));
         txtContraseña.setFont(new Font("Tahoma",1,15));
         setTitle("Login");
-        
-        
-        
-       
-        
-        
     }
 
     /**
@@ -63,9 +57,9 @@ public class lògin extends javax.swing.JFrame {
         txtUsuario = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        logo1 = new javax.swing.JLabel();
-        logo2 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lblUsuario = new javax.swing.JLabel();
+        lblContrasena = new javax.swing.JLabel();
+        lblLogin = new javax.swing.JLabel();
         btningresar = new javax.swing.JButton();
         txtContraseña = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
@@ -77,7 +71,6 @@ public class lògin extends javax.swing.JFrame {
         panellogin.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Login");
 
         txtUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -92,11 +85,11 @@ public class lògin extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel3.setText("Contraseña");
 
-        logo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono1.jpg"))); // NOI18N
+        lblUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono1.jpg"))); // NOI18N
 
-        logo2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono1.jpg"))); // NOI18N
+        lblContrasena.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icono1.jpg"))); // NOI18N
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/iconologin.jpg"))); // NOI18N
+        lblLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/iconologin.jpg"))); // NOI18N
 
         btningresar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btningresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/botonlogin.jpg"))); // NOI18N
@@ -114,7 +107,7 @@ public class lògin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelloginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelloginLayout.createSequentialGroup()
-                        .addComponent(logo1)
+                        .addComponent(lblUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addGroup(panelloginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -122,19 +115,17 @@ public class lògin extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(panelloginLayout.createSequentialGroup()
-                        .addComponent(logo2)
+                        .addComponent(lblContrasena)
                         .addGap(18, 18, 18)
                         .addGroup(panelloginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelloginLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel3)
                             .addComponent(txtContraseña))))
                 .addGap(31, 31, 31))
             .addGroup(panelloginLayout.createSequentialGroup()
                 .addGroup(panelloginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelloginLayout.createSequentialGroup()
                         .addGap(152, 152, 152)
-                        .addComponent(jLabel7))
+                        .addComponent(lblLogin))
                     .addGroup(panelloginLayout.createSequentialGroup()
                         .addGap(172, 172, 172)
                         .addComponent(jLabel1)))
@@ -148,7 +139,7 @@ public class lògin extends javax.swing.JFrame {
             panelloginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelloginLayout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addComponent(jLabel7)
+                .addComponent(lblLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addGap(43, 43, 43)
@@ -164,9 +155,9 @@ public class lògin extends javax.swing.JFrame {
                 .addGap(19, 19, 19))
             .addGroup(panelloginLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(logo1)
+                .addComponent(lblUsuario)
                 .addGap(84, 84, 84)
-                .addComponent(logo2)
+                .addComponent(lblContrasena)
                 .addGap(75, 75, 75))
         );
 
@@ -267,9 +258,9 @@ public class lògin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel logo1;
-    private javax.swing.JLabel logo2;
+    private javax.swing.JLabel lblContrasena;
+    private javax.swing.JLabel lblLogin;
+    private javax.swing.JLabel lblUsuario;
     private javax.swing.JPanel panellogin;
     private javax.swing.JPasswordField txtContraseña;
     private javax.swing.JTextField txtUsuario;
