@@ -22,7 +22,7 @@ public class vMenu extends javax.swing.JFrame {
     public vMenu() {
         initComponents();
         setLocationRelativeTo(this);
-        
+        /*Hola mundo*/
         ImageIcon icono = new ImageIcon(getClass().getResource("/Images/logout.png"));
         jButton2.setIcon(icono);
 
