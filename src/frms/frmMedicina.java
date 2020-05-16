@@ -26,7 +26,7 @@ public class frmMedicina extends javax.swing.JFrame {
     
     public frmMedicina(String opcion, int medicinaId) {
         initComponents();
-         setLocationRelativeTo(this);
+        setLocationRelativeTo(this);
         setResizable(false);
         
         this.opcion = opcion;

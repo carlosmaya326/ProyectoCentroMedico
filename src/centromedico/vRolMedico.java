@@ -298,9 +298,9 @@ public class vRolMedico extends javax.swing.JFrame {
     }//GEN-LAST:event_mHistorialActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        frmRolMedico frmMedico = new frmRolMedico("Crear" , -1  );
+        /*frmRolMedico frmMedico = new frmRolMedico("Crear" , -1);
         frmMedico.show();
-        dispose();
+        dispose();*/
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

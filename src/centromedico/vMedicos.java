@@ -5,10 +5,16 @@
  */
 package centromedico;
 
+import DB.Conexion;
+import frms.frmMedicos;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -27,7 +33,9 @@ public class vMedicos extends javax.swing.JFrame {
         panel2.setBorder(BorderFactory.createLineBorder(Color.black, 2));
         panel2.setBackground(new Color(50,162,140));
         
-        setVisible(true);
+        //setVisible(true);
+        
+        this.refrescarTabla();
     }
 
     /**
@@ -46,7 +54,7 @@ public class vMedicos extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblUsuario = new javax.swing.JTable();
+        tblMedico = new javax.swing.JTable();
         btnRegistrar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -112,7 +120,7 @@ public class vMedicos extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        tblUsuario.setModel(new javax.swing.table.DefaultTableModel(
+        tblMedico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -128,20 +136,35 @@ public class vMedicos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblUsuario);
-        if (tblUsuario.getColumnModel().getColumnCount() > 0) {
-            tblUsuario.getColumnModel().getColumn(0).setResizable(false);
-            tblUsuario.getColumnModel().getColumn(0).setPreferredWidth(1);
-            tblUsuario.getColumnModel().getColumn(1).setResizable(false);
-            tblUsuario.getColumnModel().getColumn(2).setResizable(false);
-            tblUsuario.getColumnModel().getColumn(3).setResizable(false);
+        jScrollPane1.setViewportView(tblMedico);
+        if (tblMedico.getColumnModel().getColumnCount() > 0) {
+            tblMedico.getColumnModel().getColumn(0).setResizable(false);
+            tblMedico.getColumnModel().getColumn(0).setPreferredWidth(1);
+            tblMedico.getColumnModel().getColumn(1).setResizable(false);
+            tblMedico.getColumnModel().getColumn(2).setResizable(false);
+            tblMedico.getColumnModel().getColumn(3).setResizable(false);
         }
 
         btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         lblUsuario1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblUsuario1.setText("Médicos");
@@ -307,7 +330,105 @@ public class vMedicos extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        frmMedicos ventana = new frmMedicos("crear", -1);
+        ventana.show();
+        dispose();
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        int cantidad = tblMedico.getSelectedRowCount();
+        if(cantidad == 0){
+            JOptionPane.showMessageDialog(this, "No ha seleccionado la medicina");
+        }else if(cantidad > 1){
+            JOptionPane.showMessageDialog(this, "Seleccione solo una medicina");
+        }else{
+            int column = 0;
+            int row = tblMedico.getSelectedRow();
+            int value = Integer.parseInt(tblMedico.getModel().getValueAt(row, column).toString());
+
+            frmMedicos ventana = new frmMedicos("editar", value);
+            ventana.show();
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int cantidad = tblMedico.getSelectedRowCount();
+
+        if(cantidad == 0){
+            JOptionPane.showMessageDialog(this, "No ha seleccionado el médico");
+        }else if(cantidad > 1){
+            JOptionPane.showMessageDialog(this, "Seleccione solo un médico");
+        }else{
+            int column = 0;
+            int row = tblMedico.getSelectedRow();
+            int value = Integer.parseInt(tblMedico.getModel().getValueAt(row, column).toString());
+            
+            int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!"
+                    , JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+            
+            if(resp == 0){
+                try{
+                    Conexion con = new Conexion();
+                    Connection conexion = con.getConexion();
+                    
+                    Statement state = conexion.createStatement();
+                    
+                    state.executeUpdate("DELETE FROM RolMedico WHERE MedicoId = '"+value+"'");
+                    
+                    String qDelete = "DELETE FROM Medico WHERE MedicoId = '"+value+"'";
+                    state.executeUpdate(qDelete);
+                    
+                    JOptionPane.showMessageDialog(this, "Médico Eliminado Exitosamente");
+                    
+                    this.refrescarTabla();
+                }catch(Exception e){
+                    System.out.println("Error");
+                }
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
                                         
+    public void refrescarTabla(){
+        DefaultTableModel modelo;
+        modelo = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        try{
+            Conexion con = new Conexion();
+            Connection conexion=con.getConexion();
+
+            Statement estado = conexion.createStatement();
+           
+           String query = "SELECT * FROM Medico";
+                      
+           ResultSet res = estado.executeQuery(query);
+           
+            modelo.addColumn("Id");
+            modelo.addColumn("Documento");
+            modelo.addColumn("Nombre");
+            modelo.addColumn("Teléfono");
+            modelo.addColumn("Dirección");
+
+            while(res.next()){
+                Object []object = new Object[5];
+                object[0] = res.getString("MedicoId");
+                object[1] = res.getString("Documento");
+                object[2] = res.getString("Nombres") + " " + res.getString("Apellidos");
+                object[3] = res.getString("Telefono");
+                object[4] = res.getString("Direccion");
+                modelo.addRow(object);
+            }
+            tblMedico.setModel(modelo);
+        }catch(Exception e){
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
+    }
     
     /**
      * @param args the command line arguments
@@ -340,7 +461,7 @@ public class vMedicos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-          
+                new vMedicos().setVisible(true);
             }
         });
     }
@@ -367,6 +488,6 @@ public class vMedicos extends javax.swing.JFrame {
     private javax.swing.JMenu menuCita;
     private javax.swing.JMenu menuConfig;
     private javax.swing.JPanel panel2;
-    private javax.swing.JTable tblUsuario;
+    private javax.swing.JTable tblMedico;
     // End of variables declaration//GEN-END:variables
 }

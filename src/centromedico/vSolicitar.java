@@ -45,7 +45,7 @@ public class vSolicitar extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblUsuarios = new javax.swing.JTable();
+        tblSolicitar = new javax.swing.JTable();
         btnRegistrar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -109,7 +109,7 @@ public class vSolicitar extends javax.swing.JFrame {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
-        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+        tblSolicitar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -125,7 +125,7 @@ public class vSolicitar extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tblUsuarios);
+        jScrollPane1.setViewportView(tblSolicitar);
 
         btnRegistrar.setText("Registrar");
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -394,6 +394,6 @@ public class vSolicitar extends javax.swing.JFrame {
     private javax.swing.JMenu menuCita;
     private javax.swing.JMenu menuConfig;
     private javax.swing.JPanel panel2;
-    private javax.swing.JTable tblUsuarios;
+    private javax.swing.JTable tblSolicitar;
     // End of variables declaration//GEN-END:variables
 }
