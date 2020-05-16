@@ -9,6 +9,7 @@ import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,9 +23,9 @@ public class vMenu extends javax.swing.JFrame {
     public vMenu() {
         initComponents();
         setLocationRelativeTo(this);
+        setResizable(false);
 
-        ImageIcon icono = new ImageIcon(getClass().getResource("/Images/logout.png"));
-        jButton2.setIcon(icono);
+        
         
         panel2.setBorder(BorderFactory.createLineBorder(Color.black, 2));
         panel2.setBackground(new Color(50,162,140));
@@ -83,6 +84,13 @@ public class vMenu extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel2.setText("Centro Médico tu Salud - ");
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logout.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
@@ -90,28 +98,27 @@ public class vMenu extends javax.swing.JFrame {
             .addGroup(panel2Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(lblLogo)
-                .addGap(14, 14, 14)
+                .addGap(56, 56, 56)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(lblUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(74, 74, 74))
         );
         panel2Layout.setVerticalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblLogo)
                     .addGroup(panel2Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(lblUsuario)))
-                    .addGroup(panel2Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblLogo))
+                        .addGap(5, 5, 5)
+                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(lblUsuario)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -123,7 +130,7 @@ public class vMenu extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -169,6 +176,11 @@ public class vMenu extends javax.swing.JFrame {
         menuConfig.add(mMedicos);
 
         mPacientes.setText("Pacientes");
+        mPacientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mPacientesActionPerformed(evt);
+            }
+        });
         menuConfig.add(mPacientes);
 
         menu.add(menuConfig);
@@ -176,9 +188,19 @@ public class vMenu extends javax.swing.JFrame {
         menuCita.setText("Citas");
 
         mSolicitar.setText("Solicitar");
+        mSolicitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mSolicitarActionPerformed(evt);
+            }
+        });
         menuCita.add(mSolicitar);
 
         mHistorial.setText("Historial");
+        mHistorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mHistorialActionPerformed(evt);
+            }
+        });
         menuCita.add(mHistorial);
 
         menu.add(menuCita);
@@ -222,6 +244,39 @@ public class vMenu extends javax.swing.JFrame {
         ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mMedicosActionPerformed
+
+    private void mPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPacientesActionPerformed
+        vPacientes p = new vPacientes();
+        p.show();
+        dispose();
+    }//GEN-LAST:event_mPacientesActionPerformed
+
+    private void mSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSolicitarActionPerformed
+        vSolicitar s = new vSolicitar();
+        s.show();
+        dispose();
+    }//GEN-LAST:event_mSolicitarActionPerformed
+
+    private void mHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHistorialActionPerformed
+        vHistorial h = new vHistorial();
+        h.show();
+        dispose();
+    }//GEN-LAST:event_mHistorialActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
+        int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!"
+                    , JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+        
+        if(resp==0){
+            
+            lògin l = new lògin();
+            l.show();
+            dispose();
+            
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -24,16 +24,27 @@ public class frmRolMedico extends javax.swing.JFrame {
     private String opcion;
     private int usuarioid;
     
-    public frmRolMedico() {
+    public frmRolMedico(String opcion, int  usuarioid) throws InstantiationException, IllegalAccessException, SQLException {
         initComponents();
-        
         setBounds(WIDTH, WIDTH, 340, 250);
         setLocationRelativeTo(this);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Registrar_Rol");
         setResizable(false);
            
-
+        this.opcion = opcion;
+        this.usuarioid = usuarioid;
+        
+        if(opcion.equals("Crear")){
+            
+            Conexion c = new Conexion();
+            c.getConexion();
+            
+            
+        }
+        
+        
+        
     }
 
     /**

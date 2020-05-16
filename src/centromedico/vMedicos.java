@@ -5,7 +5,10 @@
  */
 package centromedico;
 
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,9 +22,12 @@ public class vMedicos extends javax.swing.JFrame {
     public vMedicos() {
         initComponents();
         setLocationRelativeTo(this);
+        setResizable(false);
         
-        ImageIcon icono = new ImageIcon(getClass().getResource("/Images/logout.png"));
-        jButton1.setIcon(icono);
+        panel2.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+        panel2.setBackground(new Color(50,162,140));
+        
+        setVisible(true);
     }
 
     /**
@@ -34,7 +40,7 @@ public class vMedicos extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        panel2 = new javax.swing.JPanel();
         lblLogo = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -60,7 +66,7 @@ public class vMedicos extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblLogo.setText("Logo");
+        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/iconomenu.jpg"))); // NOI18N
 
         lblUsuario.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblUsuario.setText("Usuario");
@@ -68,32 +74,42 @@ public class vMedicos extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel2.setText("Centro Médico tu Salud - ");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logout.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
+        panel2.setLayout(panel2Layout);
+        panel2Layout.setHorizontalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addComponent(lblLogo)
-                .addGap(18, 18, 18)
+                .addGap(44, 44, 44)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(lblUsuario)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 245, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(66, 66, 66))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        panel2Layout.setVerticalGroup(
+            panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblUsuario)
-                        .addComponent(jLabel2)
-                        .addComponent(lblLogo)))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblLogo)
+                    .addGroup(panel2Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(lblUsuario)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tblUsuario.setModel(new javax.swing.table.DefaultTableModel(
@@ -134,7 +150,7 @@ public class vMedicos extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,7 +171,7 @@ public class vMedicos extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblUsuario1)
                 .addGap(30, 30, 30)
@@ -198,6 +214,11 @@ public class vMedicos extends javax.swing.JFrame {
         menuConfig.add(mMedicos);
 
         mPacientes.setText("Pacientes");
+        mPacientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mPacientesActionPerformed(evt);
+            }
+        });
         menuConfig.add(mPacientes);
 
         menu.add(menuConfig);
@@ -205,9 +226,19 @@ public class vMedicos extends javax.swing.JFrame {
         menuCita.setText("Citas");
 
         mSolicitar.setText("Solicitar");
+        mSolicitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mSolicitarActionPerformed(evt);
+            }
+        });
         menuCita.add(mSolicitar);
 
         mHistorial.setText("Historial");
+        mHistorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mHistorialActionPerformed(evt);
+            }
+        });
         menuCita.add(mHistorial);
 
         menu.add(menuCita);
@@ -246,6 +277,38 @@ public class vMedicos extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_mRolMedicoActionPerformed
 
+    private void mPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPacientesActionPerformed
+         vPacientes p = new vPacientes();
+        p.show();
+        dispose();
+    }//GEN-LAST:event_mPacientesActionPerformed
+
+    private void mSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSolicitarActionPerformed
+         vSolicitar s = new vSolicitar();
+        s.show();
+        dispose();
+    }//GEN-LAST:event_mSolicitarActionPerformed
+
+    private void mHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHistorialActionPerformed
+        vHistorial h = new vHistorial();
+        h.show();
+        dispose();
+    }//GEN-LAST:event_mHistorialActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!"
+                    , JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+        
+        if(resp==0){
+            
+            lògin l = new lògin();
+            l.show();
+            dispose();
+            
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+                                        
+    
     /**
      * @param args the command line arguments
      */
@@ -277,7 +340,7 @@ public class vMedicos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new vUsuario().setVisible(true);
+          
             }
         });
     }
@@ -289,7 +352,6 @@ public class vMedicos extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblUsuario;
@@ -304,6 +366,7 @@ public class vMedicos extends javax.swing.JFrame {
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenu menuCita;
     private javax.swing.JMenu menuConfig;
+    private javax.swing.JPanel panel2;
     private javax.swing.JTable tblUsuario;
     // End of variables declaration//GEN-END:variables
 }
