@@ -264,44 +264,44 @@ public class vHistorial extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mUsuarioActionPerformed
-        vUsuario u = new vUsuario();
+        vUsuario u = new vUsuario(user);
         u.show();
         dispose();
     }//GEN-LAST:event_mUsuarioActionPerformed
 
     private void mMedicinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicinaActionPerformed
-        vMedicina ventana = new vMedicina();
+        vMedicina ventana = new vMedicina(user);
         ventana.show();
         dispose();
     }//GEN-LAST:event_mMedicinaActionPerformed
 
     private void mRolMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mRolMedicoActionPerformed
-        vRolMedico ventana = new vRolMedico();
+        vRolMedico ventana = new vRolMedico(user);
         ventana.show();
         dispose();
     }//GEN-LAST:event_mRolMedicoActionPerformed
 
     private void mMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicosActionPerformed
-        vMedicos ventana = new vMedicos();
+        vMedicos ventana = new vMedicos(user);
         ventana.show();
         dispose();
     }//GEN-LAST:event_mMedicosActionPerformed
     
     
     private void mPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPacientesActionPerformed
-        vPacientes p = new vPacientes();
+        vPacientes p = new vPacientes(user);
         p.show();
         dispose();
     }//GEN-LAST:event_mPacientesActionPerformed
 
     private void mSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSolicitarActionPerformed
-        vSolicitar s = new vSolicitar();
+        vSolicitar s = new vSolicitar(user);
         s.show();
         dispose();
     }//GEN-LAST:event_mSolicitarActionPerformed
 
     private void mHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHistorialActionPerformed
-        vHistorial h = new vHistorial();
+        vHistorial h = new vHistorial(user);
         h.show();
         dispose();
     }//GEN-LAST:event_mHistorialActionPerformed
