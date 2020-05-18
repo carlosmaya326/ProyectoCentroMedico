@@ -25,8 +25,6 @@ public class vMenu extends javax.swing.JFrame {
         setLocationRelativeTo(this);
         setResizable(false);
 
-        
-        
         panel2.setBorder(BorderFactory.createLineBorder(Color.black, 2));
         panel2.setBackground(new Color(50,162,140));
 
@@ -35,13 +33,23 @@ public class vMenu extends javax.swing.JFrame {
     public vMenu(Usuario user) {
         initComponents();
         setLocationRelativeTo(this);
+        setResizable(false);
+        
+        panel2.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+        panel2.setBackground(new Color(50,162,140));
         
         this.user = user;
+        lblUsuario.setText(this.user.getUsuario());
         if(user.getTipoUsuario().equals("P")){
             mUsuario.setVisible(false);
             mMedicina.setVisible(false);
             mRolMedico.setVisible(false);
             mMedicos.setVisible(false);
+        }else if(user.getTipoUsuario().equals("M")){
+            mUsuario.setVisible(false);
+            mRolMedico.setVisible(false);
+        }else{
+            menuCita.setVisible(false);
         }
     }
 
@@ -222,43 +230,43 @@ public class vMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mUsuarioActionPerformed
-        vUsuario ventana = new vUsuario();
+        vUsuario ventana = new vUsuario(user);
         ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mUsuarioActionPerformed
 
     private void mMedicinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicinaActionPerformed
-        vMedicina ventana = new vMedicina();
+        vMedicina ventana = new vMedicina(user);
         ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mMedicinaActionPerformed
 
     private void mRolMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mRolMedicoActionPerformed
-        vRolMedico ventana = new vRolMedico();
+        vRolMedico ventana = new vRolMedico(user);
         ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mRolMedicoActionPerformed
 
     private void mMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicosActionPerformed
-        vMedicos ventana = new vMedicos();
+        vMedicos ventana = new vMedicos(user);
         ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mMedicosActionPerformed
 
     private void mPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPacientesActionPerformed
-        vPacientes p = new vPacientes();
+        vPacientes p = new vPacientes(user);
         p.show();
         dispose();
     }//GEN-LAST:event_mPacientesActionPerformed
 
     private void mSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSolicitarActionPerformed
-        vSolicitar s = new vSolicitar();
+        vSolicitar s = new vSolicitar(user);
         s.show();
         dispose();
     }//GEN-LAST:event_mSolicitarActionPerformed
 
     private void mHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHistorialActionPerformed
-        vHistorial h = new vHistorial();
+        vHistorial h = new vHistorial(user);
         h.show();
         dispose();
     }//GEN-LAST:event_mHistorialActionPerformed

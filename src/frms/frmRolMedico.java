@@ -5,6 +5,7 @@
  */
 package frms;
 
+import Clases.Usuario;
 import DB.Conexion;
 import centromedico.vRolMedico;
 
@@ -26,10 +27,11 @@ public class frmRolMedico extends javax.swing.JFrame {
 
     private String opcion;
     private int rolId;
+    Usuario user;
 
     int op;
 
-    public frmRolMedico(String opcion, int rolId) {
+    public frmRolMedico(String opcion, int rolId, Usuario user) {
         initComponents();
         setBounds(WIDTH, WIDTH, 340, 250);
         setLocationRelativeTo(this);
@@ -39,6 +41,7 @@ public class frmRolMedico extends javax.swing.JFrame {
 
         this.opcion = opcion;
         this.rolId = rolId;
+        this.user = user;
 
         obtenerInfo();
     }
@@ -173,7 +176,7 @@ public class frmRolMedico extends javax.swing.JFrame {
                     String insertar = ("INSERT INTO Rol (Nombre) VALUES ('" + txtNombre.getText() + "') ");
                     estado.executeUpdate(insertar);
                     JOptionPane.showMessageDialog(null, "Registro guardado exitosamente");
-                    vRolMedico r = new vRolMedico();
+                    vRolMedico r = new vRolMedico(user);
                     r.show();
                     dispose();
                 } catch (IllegalAccessException | InstantiationException | SQLException e) {
@@ -190,7 +193,7 @@ public class frmRolMedico extends javax.swing.JFrame {
                     Statement estado = conexion.createStatement();
                     String actualizar = ("UPDATE Rol SET Nombre = '" + txtNombre.getText() + "' WHERE Rolid = '" + rolId + "'");
                     estado.executeUpdate(actualizar);
-                    vRolMedico r = new vRolMedico();
+                    vRolMedico r = new vRolMedico(user);
                     r.show();
                     dispose();
 
@@ -206,7 +209,7 @@ public class frmRolMedico extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        vRolMedico r = new vRolMedico();
+        vRolMedico r = new vRolMedico(user);
         r.show();
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed

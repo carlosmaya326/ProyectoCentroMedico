@@ -5,6 +5,7 @@
  */
 package centromedico;
 
+import Clases.Usuario;
 import DB.Conexion;
 import frms.frmMedicina;
 import java.awt.Color;
@@ -22,14 +23,26 @@ import javax.swing.table.DefaultTableModel;
  */
 public class vMedicina extends javax.swing.JFrame {
 
-    /**
-     * Creates new form vMenuUsuario
-     */
-    public vMedicina() {
+    Usuario user;
+    
+    public vMedicina(Usuario user) {
         initComponents();
         setLocationRelativeTo(this);
         setResizable(false);
         
+        this.user = user;
+        lblUsuario.setText(this.user.getUsuario());
+        if(user.getTipoUsuario().equals("P")){
+            mUsuario.setVisible(false);
+            mMedicina.setVisible(false);
+            mRolMedico.setVisible(false);
+            mMedicos.setVisible(false);
+        }else if(user.getTipoUsuario().equals("M")){
+            mUsuario.setVisible(false);
+            mRolMedico.setVisible(false);
+        }else{
+            menuCita.setVisible(false);
+        }
         
         panel2.setBorder(BorderFactory.createLineBorder(Color.black, 2));
         panel2.setBackground(new Color(50,162,140));
@@ -282,25 +295,25 @@ public class vMedicina extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mUsuarioActionPerformed
-        vUsuario ventana = new vUsuario();
+        vUsuario ventana = new vUsuario(user);
         ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mUsuarioActionPerformed
 
     private void mRolMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mRolMedicoActionPerformed
-        vRolMedico ventana = new vRolMedico();
+        vRolMedico ventana = new vRolMedico(user);
         ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mRolMedicoActionPerformed
 
     private void mMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicosActionPerformed
-        vMedicos ventana = new vMedicos();
+        vMedicos ventana = new vMedicos(user);
         ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mMedicosActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        frmMedicina ventana = new frmMedicina("crear", -1);
+        frmMedicina ventana = new frmMedicina("crear", -1, user);
         ventana.show();
         dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
@@ -316,7 +329,7 @@ public class vMedicina extends javax.swing.JFrame {
             int row = tblMedicina.getSelectedRow();
             int value = Integer.parseInt(tblMedicina.getModel().getValueAt(row, column).toString());
 
-            frmMedicina ventana = new frmMedicina("editar", value);
+            frmMedicina ventana = new frmMedicina("editar", value, user);
             ventana.show();
             this.dispose();
         }
@@ -358,19 +371,19 @@ public class vMedicina extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void mPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPacientesActionPerformed
-        vPacientes p = new vPacientes();
+        vPacientes p = new vPacientes(user);
         p.show();
         dispose();
     }//GEN-LAST:event_mPacientesActionPerformed
 
     private void mSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSolicitarActionPerformed
-         vSolicitar s = new vSolicitar();
+         vSolicitar s = new vSolicitar(user);
         s.show();
         dispose();
     }//GEN-LAST:event_mSolicitarActionPerformed
 
     private void mHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHistorialActionPerformed
-        vHistorial h = new vHistorial();
+        vHistorial h = new vHistorial(user);
         h.show();
         dispose();
     }//GEN-LAST:event_mHistorialActionPerformed
@@ -461,7 +474,7 @@ public class vMedicina extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new vMedicina().setVisible(true);
+                //new vMedicina().setVisible(true);
             }
         });
     }

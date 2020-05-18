@@ -5,6 +5,7 @@
  */
 package centromedico;
 
+import Clases.Usuario;
 import DB.Conexion;
 import java.awt.Color;
 import java.awt.Font;
@@ -195,8 +196,14 @@ public class lògin extends javax.swing.JFrame {
                 ResultSet res = estado.executeQuery(Obtener);
                 
                 if (res.next()) {
+                    Usuario user = new Usuario(
+                        res.getString("TipoUsuario"),
+                        Integer.parseInt(res.getString("Documento")),
+                        res.getString("Usuario"),
+                        res.getString("Contrasena")
+                    );
                     
-                    vMenu m = new vMenu();
+                    vMenu m = new vMenu(user);
                     m.setVisible(true);
                     this.dispose();
                 } else {

@@ -22,13 +22,15 @@ public class frmUsuario extends javax.swing.JFrame {
 
     String opcion;
     int usuarioId;
-    public frmUsuario(String opcion, int usuarioId) {
+    Usuario user;
+    public frmUsuario(String opcion, int usuarioId, Usuario user) {
         initComponents();
         setLocationRelativeTo(this);
         setResizable(false);
         System.out.println(usuarioId);
         this.opcion = opcion;
         this.usuarioId = usuarioId;
+        this.user = user;
         
         try{
            if(opcion.equals("editar")){
@@ -200,8 +202,8 @@ public class frmUsuario extends javax.swing.JFrame {
             
             int resp = usuario.guardar();
             
-            vUsuario ventana = new vUsuario();
-            ventana.lblUsuario.setText("Paco");
+            vUsuario ventana = new vUsuario(user);
+
             if(resp == 1){
                 JOptionPane.showMessageDialog(null, "Registro guardado exitosamente");
                 ventana.setVisible(true);
@@ -217,7 +219,7 @@ public class frmUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        vUsuario ventana = new vUsuario();
+        vUsuario ventana = new vUsuario(user);
         ventana.show();
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed

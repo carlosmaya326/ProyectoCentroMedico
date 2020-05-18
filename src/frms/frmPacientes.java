@@ -5,6 +5,7 @@
  */
 package frms;
 
+import Clases.Usuario;
 import DB.Conexion;
 import centromedico.vPacientes;
 import java.sql.Connection;
@@ -22,9 +23,10 @@ public class frmPacientes extends javax.swing.JFrame {
     private int pacienteid;
     private int op;
     private String fechaCaducidad;
+    Usuario user;
     
     
-    public frmPacientes(String opcion, int id) {
+    public frmPacientes(String opcion, int id, Usuario user) {
         initComponents();
         
         setBounds(WIDTH, WIDTH, 700, 400);
@@ -35,6 +37,7 @@ public class frmPacientes extends javax.swing.JFrame {
         
         this.opcion = opcion;
         this.pacienteid = id;
+        this.user = user;
         
         Obtenerinfo();
         
@@ -150,6 +153,11 @@ public class frmPacientes extends javax.swing.JFrame {
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         jcgenero.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "M", "F" }));
 
@@ -293,7 +301,7 @@ public class frmPacientes extends javax.swing.JFrame {
                     estado.executeUpdate(insertar);
                     
                     JOptionPane.showMessageDialog(null, "Datos insertados exitosamente");
-                    vPacientes p = new vPacientes();
+                    vPacientes p = new vPacientes(user);
                     p.show();
                     dispose();
                     
@@ -321,7 +329,7 @@ public class frmPacientes extends javax.swing.JFrame {
                             + ", FechaNacimiento = '"+fechaCaducidad+"' WHERE PacienteId = '"+this.pacienteid+"' ";
                     
                     estado.executeUpdate(editar);
-                    vPacientes p = new vPacientes();
+                    vPacientes p = new vPacientes(user);
                     JOptionPane.showMessageDialog(null, "Registro actualizado exitosamente");
                     p.show();
                     dispose();
@@ -341,6 +349,12 @@ public class frmPacientes extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        vPacientes p = new vPacientes(user);
+        p.show();
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments

@@ -24,16 +24,26 @@ import javax.swing.table.DefaultTableModel;
  */
 public class vUsuario extends javax.swing.JFrame {
 
-    /**
-     * Creates new form vMenuUsuario
-     */
-    public vUsuario() {
+    Usuario user;
+    public vUsuario(Usuario user) {
         initComponents();
         setLocationRelativeTo(this);
         setResizable(false);
         setTitle("Usuarios");
         
-       
+        this.user = user;
+        lblUsuario.setText(this.user.getUsuario());
+        if(user.getTipoUsuario().equals("P")){
+            mUsuario.setVisible(false);
+            mMedicina.setVisible(false);
+            mRolMedico.setVisible(false);
+            mMedicos.setVisible(false);
+        }else if(user.getTipoUsuario().equals("M")){
+            mUsuario.setVisible(false);
+            mRolMedico.setVisible(false);
+        }else{
+            menuCita.setVisible(false);
+        }
         
         
         panel2.setBorder(BorderFactory.createLineBorder(Color.black, 2));
@@ -293,25 +303,25 @@ public class vUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_mUsuarioActionPerformed
 
     private void mMedicinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicinaActionPerformed
-        vMedicina ventana = new vMedicina();
+        vMedicina ventana = new vMedicina(user);
         ventana.show();
         dispose();
     }//GEN-LAST:event_mMedicinaActionPerformed
 
     private void mRolMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mRolMedicoActionPerformed
-        vRolMedico ventana = new vRolMedico();
+        vRolMedico ventana = new vRolMedico(user);
         ventana.show();
         dispose();
     }//GEN-LAST:event_mRolMedicoActionPerformed
 
     private void mMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicosActionPerformed
-        vMedicos ventana = new vMedicos();
+        vMedicos ventana = new vMedicos(user);
         ventana.show();
         dispose();
     }//GEN-LAST:event_mMedicosActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        frmUsuario ventana = new frmUsuario("crear", -1);
+        frmUsuario ventana = new frmUsuario("crear", -1, user);
         ventana.show();
         dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
@@ -327,7 +337,7 @@ public class vUsuario extends javax.swing.JFrame {
             int row = tblUsuarios.getSelectedRow();
             int value = Integer.parseInt(tblUsuarios.getModel().getValueAt(row, column).toString());
 
-            frmUsuario ventana = new frmUsuario("editar", value);
+            frmUsuario ventana = new frmUsuario("editar", value, user);
             ventana.show();
             this.dispose();
         }
@@ -369,19 +379,19 @@ public class vUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void mPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPacientesActionPerformed
-        vPacientes p = new vPacientes();
+        vPacientes p = new vPacientes(user);
         p.show();
         dispose();
     }//GEN-LAST:event_mPacientesActionPerformed
 
     private void mSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSolicitarActionPerformed
-        vSolicitar s = new vSolicitar();
+        vSolicitar s = new vSolicitar(user);
         s.show();
         dispose();
     }//GEN-LAST:event_mSolicitarActionPerformed
 
     private void mHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHistorialActionPerformed
-        vHistorial h = new vHistorial();
+        vHistorial h = new vHistorial(user);
         h.show();
         dispose();
     }//GEN-LAST:event_mHistorialActionPerformed
@@ -481,7 +491,7 @@ public class vUsuario extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new vUsuario().setVisible(true);
+                //new vUsuario().setVisible(true);
             }
         });
     }

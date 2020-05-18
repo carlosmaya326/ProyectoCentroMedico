@@ -92,9 +92,8 @@ public class Medico {
             
             if(this.id == -1){
                 ResultSet sql = estado.executeQuery("SELECT COUNT(*) Cantidad FROM Medico WHERE Documento = '"+this.documento+"'");
-                ResultSet sql2 = estado.executeQuery("SELECT COUNT(*) Cantidad FROM Paciente WHERE Documento = '"+this.documento+"'");
-                if(sql.next() && sql2.next()){
-                    if(sql.getInt("Cantidad") > 0 || sql2.getInt("Cantidad") > 0){
+                if(sql.next()){
+                    if(sql.getInt("Cantidad") > 0){
                         return 3; //Si el documento ya existe
                     }else{
                         String qInsert = "INSERT INTO Medico (Documento, Nombres, Apellidos, Telefono, Direccion) "

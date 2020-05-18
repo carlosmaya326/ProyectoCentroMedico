@@ -6,6 +6,7 @@
 package frms;
 
 import Clases.Medicina;
+import Clases.Usuario;
 import DB.Conexion;
 import centromedico.vMedicina;
 import java.sql.Connection;
@@ -23,14 +24,16 @@ public class frmMedicina extends javax.swing.JFrame {
 
     String opcion;
     int medicinaId;
+    Usuario user;
     
-    public frmMedicina(String opcion, int medicinaId) {
+    public frmMedicina(String opcion, int medicinaId, Usuario user) {
         initComponents();
         setLocationRelativeTo(this);
         setResizable(false);
         
         this.opcion = opcion;
         this.medicinaId = medicinaId;
+        this.user = user;
         
         try{
            if(opcion.equals("editar")){
@@ -198,7 +201,7 @@ public class frmMedicina extends javax.swing.JFrame {
             }
             int resp = medicina.guardar();
 
-            vMedicina ventana = new vMedicina();
+            vMedicina ventana = new vMedicina(user);
             if(resp == 1){
                 JOptionPane.showMessageDialog(null, "Registro guardado exitosamente");
                 ventana.show();
@@ -212,7 +215,7 @@ public class frmMedicina extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        vMedicina ventana = new vMedicina();
+        vMedicina ventana = new vMedicina(user);
         ventana.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed

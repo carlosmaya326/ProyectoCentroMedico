@@ -5,9 +5,17 @@
  */
 package centromedico;
 
+import Clases.Usuario;
+import DB.Conexion;
+import frms.frmDarAlta;
+import frms.frmSolicitar;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,15 +23,30 @@ import javax.swing.JOptionPane;
  */
 public class vSolicitar extends javax.swing.JFrame {
 
-    /**
-     * Creates new form vSolicitar
-     */
-    public vSolicitar() {
+    Usuario user;
+
+    public vSolicitar(Usuario user) {
         initComponents();
         
         setLocationRelativeTo(this);
         setResizable(false);
         setTitle("Solicitar");
+        
+        this.user = user;
+        lblUsuario.setText(this.user.getUsuario());
+        if(user.getTipoUsuario().equals("P")){
+            mUsuario.setVisible(false);
+            mMedicina.setVisible(false);
+            mRolMedico.setVisible(false);
+            mMedicos.setVisible(false);
+        }else if(user.getTipoUsuario().equals("M")){
+            mUsuario.setVisible(false);
+            mRolMedico.setVisible(false);
+        }else{
+            menuCita.setVisible(false);
+        }
+        
+        this.refrescarTabla();
         
         panel2.setBorder(BorderFactory.createLineBorder(Color.black, 2));
         panel2.setBackground(new Color(50,162,140));
@@ -50,6 +73,7 @@ public class vSolicitar extends javax.swing.JFrame {
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         lblUsuario1 = new javax.swing.JLabel();
+        btnDarAlta = new javax.swing.JButton();
         menu = new javax.swing.JMenuBar();
         menuConfig = new javax.swing.JMenu();
         mUsuario = new javax.swing.JMenuItem();
@@ -114,11 +138,11 @@ public class vSolicitar extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Usuario", "Tipo", "Estado"
+                "Id", "Paciente", "Fecha", "Descripción", "Estado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -151,6 +175,13 @@ public class vSolicitar extends javax.swing.JFrame {
         lblUsuario1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblUsuario1.setText("Solicitar");
 
+        btnDarAlta.setText("Dar de alta");
+        btnDarAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDarAltaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -166,6 +197,8 @@ public class vSolicitar extends javax.swing.JFrame {
                         .addComponent(btnEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDarAlta)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -183,7 +216,8 @@ public class vSolicitar extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegistrar)
                     .addComponent(btnEditar)
-                    .addComponent(btnEliminar))
+                    .addComponent(btnEliminar)
+                    .addComponent(btnDarAlta))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE)
                 .addContainerGap())
@@ -270,56 +304,116 @@ public class vSolicitar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mUsuarioActionPerformed
-        vUsuario u = new vUsuario();
+        vUsuario u = new vUsuario(user);
         u.show();
         dispose();
     }//GEN-LAST:event_mUsuarioActionPerformed
 
     private void mMedicinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicinaActionPerformed
-        vMedicina ventana = new vMedicina();
+        vMedicina ventana = new vMedicina(user);
         ventana.show();
         dispose();
     }//GEN-LAST:event_mMedicinaActionPerformed
 
     private void mRolMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mRolMedicoActionPerformed
-        vRolMedico ventana = new vRolMedico();
+        vRolMedico ventana = new vRolMedico(user);
         ventana.show();
         dispose();
     }//GEN-LAST:event_mRolMedicoActionPerformed
 
     private void mMedicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicosActionPerformed
-        vMedicos ventana = new vMedicos();
+        vMedicos ventana = new vMedicos(user);
         ventana.show();
         dispose();
     }//GEN-LAST:event_mMedicosActionPerformed
 
     
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        
+        frmSolicitar ventana = new frmSolicitar("crear", -1, user);
+        ventana.show();
+        dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        
+        int cantidad = tblSolicitar.getSelectedRowCount();
+        if(cantidad == 0){
+            JOptionPane.showMessageDialog(this, "No ha seleccionado la cita");
+        }else if(cantidad > 1){
+            JOptionPane.showMessageDialog(this, "Seleccione solo una cita");
+        }else{
+            int column = 0;
+            int row = tblSolicitar.getSelectedRow();
+            int value = Integer.parseInt(tblSolicitar.getModel().getValueAt(row, column).toString());
+            
+            int row2 = tblSolicitar.getSelectedRow();
+            String value2 = tblSolicitar.getModel().getValueAt(row2, 4).toString();
+            
+            if(value2.equals("Activa")){
+                frmSolicitar ventana = new frmSolicitar("editar", value, user);
+                ventana.show();
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(this, "No puede modificar el registro");
+            }
+        }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        
+        int cantidad = tblSolicitar.getSelectedRowCount();
+
+        if(cantidad == 0){
+            JOptionPane.showMessageDialog(this, "No ha seleccionado la medicina");
+        }else if(cantidad > 1){
+            JOptionPane.showMessageDialog(this, "Seleccione solo una medicina");
+        }else{
+            int column = 0;
+            int row = tblSolicitar.getSelectedRow();
+            int value = Integer.parseInt(tblSolicitar.getModel().getValueAt(row, column).toString());
+            
+            int row2 = tblSolicitar.getSelectedRow();
+            String value2 = tblSolicitar.getModel().getValueAt(row2, 4).toString();
+            
+            if(value2.equals("Activa")){
+                int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro?", "Alerta!"
+                    , JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+            
+                if(resp == 0){
+                    try{
+                        Conexion con = new Conexion();
+                        Connection conexion = con.getConexion();
+
+                        Statement state = conexion.createStatement();
+
+                        String qDelete = "DELETE FROM CitaMedica WHERE CitaMedicaId = '"+value+"'";
+                        state.executeUpdate(qDelete);
+
+                        JOptionPane.showMessageDialog(this, "Medicina Eliminada Exitosamente");
+
+                        this.refrescarTabla();
+                    }catch(Exception e){
+                        System.out.println("Error");
+                    }
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "No puede eliminar el registro");
+            }
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void mHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHistorialActionPerformed
-        vHistorial h = new vHistorial();
+        vHistorial h = new vHistorial(user);
         h.show();
         dispose();
     }//GEN-LAST:event_mHistorialActionPerformed
 
     private void mPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPacientesActionPerformed
-        vPacientes p = new vPacientes();
+        vPacientes p = new vPacientes(user);
         p.show();
         dispose();
     }//GEN-LAST:event_mPacientesActionPerformed
 
     private void mSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSolicitarActionPerformed
-        vSolicitar s = new vSolicitar();
+        vSolicitar s = new vSolicitar(user);
         s.show();
         dispose();
     }//GEN-LAST:event_mSolicitarActionPerformed
@@ -337,9 +431,95 @@ public class vSolicitar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnDarAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarAltaActionPerformed
+        int cantidad = tblSolicitar.getSelectedRowCount();
+        if(cantidad == 0){
+            JOptionPane.showMessageDialog(this, "No ha seleccionado la cita");
+        }else if(cantidad > 1){
+            JOptionPane.showMessageDialog(this, "Seleccione solo una cita");
+        }else{
+            int column = 0;
+            int row = tblSolicitar.getSelectedRow();
+            int value = Integer.parseInt(tblSolicitar.getModel().getValueAt(row, column).toString());
+            
+            int row2 = tblSolicitar.getSelectedRow();
+            String value2 = tblSolicitar.getModel().getValueAt(row2, 4).toString();
+            
+            if(value2.equals("Activa")){
+                frmDarAlta ventana = new frmDarAlta(value, user);
+                ventana.show();
+                this.dispose();
+            }else{
+                JOptionPane.showMessageDialog(this, "No puede dar de alta");
+            }
+        }
+    }//GEN-LAST:event_btnDarAltaActionPerformed
+    
+    public void refrescarTabla(){
+        DefaultTableModel modelo;
+        modelo = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        try{
+            Conexion con = new Conexion();
+            Connection conexion=con.getConexion();
+
+            Statement estado = conexion.createStatement();
+           
+           String query = "SELECT\n" +
+                "	CM.CitaMedicaId\n" +
+                "	,CM.Documento\n" +
+                "	,CASE WHEN P.Documento IS NOT NULL THEN\n" +
+                "		 CONCAT(P.Nombres, ' ', P.Apellidos) \n" +
+                "		 ELSE CONCAT(M2.Nombres, ' ', M2.Apellidos) \n" +
+                "	END Paciente\n" +
+                "	,CASE CM.Estado \n" +
+                "		WHEN 'A' THEN 'Activa'\n" +
+                "		WHEN 'E' THEN 'En Proceso'\n" +
+                "		ELSE 'Finalizada'\n" +
+                "	END Estado\n" +
+                "	,CM.Fecha\n" +
+                "	,CM.Descripcion\n" +
+                "FROM CitaMedica CM\n" +
+                "LEFT JOIN Paciente P ON CM.Documento = P.Documento\n" +
+                "LEFT JOIN Medico M2 ON CM.Documento = M2.Documento ";
+           
+           if(this.user.getTipoUsuario().equals("P")){
+               query += " WHERE P.Documento = '"+this.user.getDocumento()+"'";
+           }else if(this.user.getTipoUsuario().equals("M")){
+               query += " WHERE (CM.MedicoId = "
+                       + " (SELECT MedicoId FROM Medico WHERE Documento = '"+this.user.getDocumento()+"') "
+                    + " OR CM.MedicoId IS NULL) AND CM.Estado <> 'F' ";
+           }
+           
+            System.out.println(query);
+                      
+            ResultSet res = estado.executeQuery(query);
+           
+            modelo.addColumn("Id");
+            modelo.addColumn("Paciente");
+            modelo.addColumn("Fecha");
+            modelo.addColumn("Descripcion");
+            modelo.addColumn("Estado");
+
+            while(res.next()){
+                Object []object = new Object[5];
+                object[0] = res.getString("CitaMedicaId");
+                object[1] = res.getString("Paciente");
+                object[2] = res.getString("Fecha");
+                object[3] = res.getString("Descripcion");
+                object[4] = res.getString("Estado");
+                modelo.addRow(object);
+            }
+            tblSolicitar.setModel(modelo);
+        }catch(Exception e){
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -367,12 +547,13 @@ public class vSolicitar extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new vSolicitar().setVisible(true);
+                //new vSolicitar().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDarAlta;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegistrar;

@@ -5,6 +5,7 @@
  */
 package centromedico;
 
+import Clases.Usuario;
 import DB.Conexion;
 import frms.frmMedicos;
 import java.awt.Color;
@@ -22,10 +23,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class vMedicos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form vMenuUsuario
-     */
-    public vMedicos() {
+    Usuario user;
+    public vMedicos(Usuario user) {
         initComponents();
         setLocationRelativeTo(this);
         setResizable(false);
@@ -33,7 +32,19 @@ public class vMedicos extends javax.swing.JFrame {
         panel2.setBorder(BorderFactory.createLineBorder(Color.black, 2));
         panel2.setBackground(new Color(50,162,140));
         
-        //setVisible(true);
+        this.user = user;
+        lblUsuario.setText(this.user.getUsuario());
+        if(user.getTipoUsuario().equals("P")){
+            mUsuario.setVisible(false);
+            mMedicina.setVisible(false);
+            mRolMedico.setVisible(false);
+            mMedicos.setVisible(false);
+        }else if(user.getTipoUsuario().equals("M")){
+            mUsuario.setVisible(false);
+            mRolMedico.setVisible(false);
+        }else{
+            menuCita.setVisible(false);
+        }
         
         this.refrescarTabla();
     }
@@ -283,37 +294,37 @@ public class vMedicos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mUsuarioActionPerformed
-        vUsuario ventana = new vUsuario();
+        vUsuario ventana = new vUsuario(user);
         ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mUsuarioActionPerformed
 
     private void mMedicinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mMedicinaActionPerformed
-        vMedicina ventana = new vMedicina();
+        vMedicina ventana = new vMedicina(user);
         ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mMedicinaActionPerformed
 
     private void mRolMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mRolMedicoActionPerformed
-        vRolMedico ventana = new vRolMedico();
+        vRolMedico ventana = new vRolMedico(user);
         ventana.setVisible(true);
         dispose();
     }//GEN-LAST:event_mRolMedicoActionPerformed
 
     private void mPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mPacientesActionPerformed
-         vPacientes p = new vPacientes();
+         vPacientes p = new vPacientes(user);
         p.show();
         dispose();
     }//GEN-LAST:event_mPacientesActionPerformed
 
     private void mSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mSolicitarActionPerformed
-         vSolicitar s = new vSolicitar();
+         vSolicitar s = new vSolicitar(user);
         s.show();
         dispose();
     }//GEN-LAST:event_mSolicitarActionPerformed
 
     private void mHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mHistorialActionPerformed
-        vHistorial h = new vHistorial();
+        vHistorial h = new vHistorial(user);
         h.show();
         dispose();
     }//GEN-LAST:event_mHistorialActionPerformed
@@ -332,7 +343,7 @@ public class vMedicos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        frmMedicos ventana = new frmMedicos("crear", -1);
+        frmMedicos ventana = new frmMedicos("crear", -1, user);
         ventana.show();
         dispose();
     }//GEN-LAST:event_btnRegistrarActionPerformed
@@ -348,7 +359,7 @@ public class vMedicos extends javax.swing.JFrame {
             int row = tblMedico.getSelectedRow();
             int value = Integer.parseInt(tblMedico.getModel().getValueAt(row, column).toString());
 
-            frmMedicos ventana = new frmMedicos("editar", value);
+            frmMedicos ventana = new frmMedicos("editar", value, user);
             ventana.show();
             this.dispose();
         }
@@ -405,6 +416,9 @@ public class vMedicos extends javax.swing.JFrame {
             Statement estado = conexion.createStatement();
            
            String query = "SELECT * FROM Medico";
+           if(this.user.getTipoUsuario().equals("M")){
+               query += " WHERE Documento = '"+this.user.getDocumento()+"' ";
+           }
                       
            ResultSet res = estado.executeQuery(query);
            
@@ -461,7 +475,7 @@ public class vMedicos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new vMedicos().setVisible(true);
+                //new vMedicos().setVisible(true);
             }
         });
     }
