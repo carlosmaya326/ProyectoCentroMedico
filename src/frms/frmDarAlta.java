@@ -270,9 +270,17 @@ public class frmDarAlta extends javax.swing.JFrame {
 
                 Statement query = conexion.createStatement();
                 query.executeUpdate(qInsert);
+                
+                Statement queryM = conexion.createStatement();
+                ResultSet resM = queryM.executeQuery("SELECT MedicoId FROM Medico WHERE Documento = '"+this.user.getDocumento()+"'");
+                
+                int MedicoId = 1;
+                if(resM.next()){
+                    MedicoId = resM.getInt("MedicoId");
+                }
 
                 Statement queryU = conexion.createStatement();
-                queryU.executeUpdate("UPDATE CitaMedica SET Estado = 'F' WHERE CitaMedicaId = '"+this.citaId+"'");
+                queryU.executeUpdate("UPDATE CitaMedica SET Estado = 'F', MedicoId = '"+MedicoId+"' WHERE CitaMedicaId = '"+this.citaId+"'");
                 
                 Statement queryS = conexion.createStatement();
                 ResultSet res = estado.executeQuery("SELECT MAX(HistorialClinicoId) Id FROM HistorialClinico");
