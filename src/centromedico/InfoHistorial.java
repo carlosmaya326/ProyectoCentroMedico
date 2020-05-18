@@ -1,0 +1,484 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package centromedico;
+
+import Clases.Usuario;
+import DB.Conexion;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author leagu
+ */
+public class InfoHistorial extends javax.swing.JFrame {
+
+    
+    private String id;
+    Usuario user;
+   
+    
+    /**
+     * Creates new form InfoHistorial
+     */
+    public InfoHistorial(int id, Usuario user) {
+        initComponents();
+        Border BorderFactory;
+        setLocationRelativeTo(this);
+        setResizable(false);
+        
+        this.user = user;
+       
+        jpPaciente1.setBorder(javax.swing.BorderFactory.createTitledBorder("Pacientes"));
+        jpmedico.setBorder(javax.swing.BorderFactory.createTitledBorder("medicos"));
+        this.id = Integer.toString(id);
+        llenarcampos();
+        obtenerInfoMedicina();
+        
+    }
+    
+    public void llenarcampos(){
+        try{
+            
+             Conexion c = new Conexion();
+            Connection con = c.getConexion();
+
+            Statement estado = con.createStatement();
+
+            String query = "SELECT\n" +
+                "	HC.HistorialClinicoId,\n" +
+                "	P.Documento,\n" +
+                "	CONCAT(P.Nombres, ' ', P.Apellidos) Paciente,\n" +
+                "	P.Telefono,\n" +
+                "	P.EPS,\n" +
+                "	P.Direccion,\n" +
+                "	P.Genero,\n" +
+                "	P.FechaNacimiento,\n" +
+                "	CM.Fecha FechaCita,\n" +
+                "	CONCAT(M.Nombres, ' ', M.Apellidos) Medico,\n" +
+                "	HC.Observaciones DetalleHistorial,\n" +
+                "	CM.Descripcion DetalleCita\n" +
+                "FROM HistorialClinico HC\n" +
+                "LEFT JOIN CitaMedica CM ON HC.CitaMedicaId = CM.CitaMedicaID\n" +
+                "LEFT JOIN Paciente P ON CM.Documento = P.Documento\n" +
+                "LEFT JOIN Medico M ON CM.MedicoId = M.MedicoId\n" +
+                "WHERE HC.HistorialClinicoId = '"+this.id+"'";
+
+            ResultSet res = estado.executeQuery(query);
+
+            if(res.next()){
+
+                lbdocumentop.setText(res.getString("Documento"));
+                lbnombree.setText(res.getString("Paciente"));
+                lbTelefono.setText(res.getString("Telefono"));
+                lbfecha.setText(res.getString("FechaNacimiento"));
+                lbdireccion.setText(res.getString("Direccion"));
+                lbEPSP.setText(res.getString("EPS"));
+                lbGenero.setText(res.getString("Genero"));
+
+                lbnombremedico.setText(res.getString("Medico"));
+                lbdetallem.setText(res.getString("DetalleCita"));
+                lbobservacionm.setText(res.getString("DetalleHistorial"));
+
+            }
+            
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+       
+        
+        
+        
+        
+    }
+    
+    public void obtenerInfoMedicina(){
+        DefaultTableModel modelo;
+        modelo = new DefaultTableModel(){
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        
+        try{
+            Conexion con = new Conexion();
+            Connection conexion=con.getConexion();
+
+            Statement estado = conexion.createStatement();
+           
+            String query = "SELECT\n" +
+                "	M.Nombre,\n" +
+                "	RMM.Dosis\n" +
+                "FROM RecetaMedicaMedicina RMM\n" +
+                "LEFT JOIN RecetaMedica RM ON RMM.RecetaMedicaId = RM.RecetaMedicaId\n" +
+                "LEFT JOIN HistorialClinico HC ON RM.HistorialClinicoId = HC.HistorialClinicoId\n" +
+                "LEFT JOIN Medicina M ON RMM.MedicinaId = M.MedicinaId\n" +
+                "WHERE HC.HistorialClinicoId = '"+this.id+"'";
+
+            ResultSet res = estado.executeQuery(query);
+           
+            modelo.addColumn("Medicina");
+            modelo.addColumn("Dosis");
+
+            while(res.next()){
+                Object []object = new Object[2];
+                object[0] = res.getString("Nombre");
+                object[1] = res.getString("Dosis");
+                modelo.addRow(object);
+            }
+            tblReceta.setModel(modelo);
+        }catch(Exception e){
+            System.out.println("Error");
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jpmedico = new javax.swing.JPanel();
+        titnombrem = new javax.swing.JLabel();
+        lbnombre = new javax.swing.JLabel();
+        titfecham = new javax.swing.JLabel();
+        lbdetallem = new javax.swing.JLabel();
+        titmedicom = new javax.swing.JLabel();
+        lbobservacionm = new javax.swing.JLabel();
+        lbnombremedico = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblReceta = new javax.swing.JTable();
+        jpPaciente1 = new javax.swing.JPanel();
+        titnombrep = new javax.swing.JLabel();
+        lbnombre1 = new javax.swing.JLabel();
+        titfechap = new javax.swing.JLabel();
+        lbfecha = new javax.swing.JLabel();
+        titmedicop = new javax.swing.JLabel();
+        lbTelefono = new javax.swing.JLabel();
+        lbnombree = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lbdocumentop = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lbdireccion = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lbEPSP = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        lbGenero = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        titnombrem.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        titnombrem.setText("Nombre:");
+
+        titfecham.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        titfecham.setText("Detalle");
+
+        lbdetallem.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbdetallem.setText("jLabel4");
+
+        titmedicom.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        titmedicom.setText("Observaciones");
+
+        lbobservacionm.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbobservacionm.setText("jLabel5");
+
+        lbnombremedico.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbnombremedico.setText("jLabel6");
+
+        tblReceta.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Medicina", "Dosis"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblReceta);
+
+        javax.swing.GroupLayout jpmedicoLayout = new javax.swing.GroupLayout(jpmedico);
+        jpmedico.setLayout(jpmedicoLayout);
+        jpmedicoLayout.setHorizontalGroup(
+            jpmedicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpmedicoLayout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(jpmedicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jpmedicoLayout.createSequentialGroup()
+                        .addGroup(jpmedicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(titnombrem)
+                            .addGroup(jpmedicoLayout.createSequentialGroup()
+                                .addComponent(lbnombremedico, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbnombre)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jpmedicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(titfecham)
+                            .addComponent(lbdetallem))
+                        .addGap(157, 157, 157)
+                        .addGroup(jpmedicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(titmedicom)
+                            .addComponent(lbobservacionm))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jpmedicoLayout.setVerticalGroup(
+            jpmedicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpmedicoLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jpmedicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpmedicoLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(jpmedicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbnombre)
+                            .addComponent(lbnombremedico)))
+                    .addGroup(jpmedicoLayout.createSequentialGroup()
+                        .addGroup(jpmedicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(titnombrem)
+                            .addComponent(titfecham)
+                            .addComponent(titmedicom))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jpmedicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbobservacionm)
+                            .addComponent(lbdetallem))))
+                .addGap(41, 41, 41)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
+        );
+
+        titnombrep.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        titnombrep.setText("Nombre:");
+
+        titfechap.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        titfechap.setText("fecha");
+
+        lbfecha.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbfecha.setText("jLabel4");
+
+        titmedicop.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        titmedicop.setText("Telefono");
+
+        lbTelefono.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbTelefono.setText("jLabel5");
+
+        lbnombree.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbnombree.setText("jLabel6");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setText("Documento");
+
+        lbdocumentop.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbdocumentop.setText("jLabel2");
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel3.setText("Direccion");
+
+        lbdireccion.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbdireccion.setText("jLabel4");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel4.setText("EPS");
+
+        lbEPSP.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbEPSP.setText("jLabel5");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel6.setText("Genero");
+
+        lbGenero.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbGenero.setText("jLabel7");
+
+        jButton1.setFont(new java.awt.Font("Felix Titling", 1, 18)); // NOI18N
+        jButton1.setText("Salir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpPaciente1Layout = new javax.swing.GroupLayout(jpPaciente1);
+        jpPaciente1.setLayout(jpPaciente1Layout);
+        jpPaciente1Layout.setHorizontalGroup(
+            jpPaciente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpPaciente1Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addGroup(jpPaciente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpPaciente1Layout.createSequentialGroup()
+                        .addComponent(lbdocumentop, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbnombre1))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(lbdireccion))
+                .addGap(63, 63, 63)
+                .addGroup(jpPaciente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbEPSP)
+                    .addComponent(jLabel4)
+                    .addComponent(titnombrep)
+                    .addComponent(lbnombree))
+                .addGap(82, 82, 82)
+                .addGroup(jpPaciente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(lbGenero)
+                    .addGroup(jpPaciente1Layout.createSequentialGroup()
+                        .addComponent(titmedicop)
+                        .addGap(49, 49, 49)
+                        .addComponent(titfechap))
+                    .addGroup(jpPaciente1Layout.createSequentialGroup()
+                        .addComponent(lbTelefono)
+                        .addGap(62, 62, 62)
+                        .addComponent(lbfecha, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(110, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpPaciente1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(68, 68, 68))
+        );
+        jpPaciente1Layout.setVerticalGroup(
+            jpPaciente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpPaciente1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpPaciente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(titnombrep)
+                    .addComponent(titmedicop)
+                    .addComponent(titfechap))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jpPaciente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbnombre1)
+                    .addGroup(jpPaciente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbnombree)
+                        .addComponent(lbdocumentop)
+                        .addComponent(lbTelefono)
+                        .addComponent(lbfecha)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(jpPaciente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6))
+                .addGap(9, 9, 9)
+                .addGroup(jpPaciente1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbEPSP)
+                    .addComponent(lbdireccion)
+                    .addComponent(lbGenero))
+                .addGap(60, 60, 60))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpPaciente1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jpmedico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jpPaciente1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addComponent(jpmedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        vHistorial H = new vHistorial(user);
+        H.show();
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(InfoHistorial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(InfoHistorial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(InfoHistorial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(InfoHistorial.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jpPaciente1;
+    private javax.swing.JPanel jpmedico;
+    private javax.swing.JLabel lbEPSP;
+    private javax.swing.JLabel lbGenero;
+    private javax.swing.JLabel lbTelefono;
+    private javax.swing.JLabel lbdetallem;
+    private javax.swing.JLabel lbdireccion;
+    private javax.swing.JLabel lbdocumentop;
+    private javax.swing.JLabel lbfecha;
+    private javax.swing.JLabel lbnombre;
+    private javax.swing.JLabel lbnombre1;
+    private javax.swing.JLabel lbnombree;
+    private javax.swing.JLabel lbnombremedico;
+    private javax.swing.JLabel lbobservacionm;
+    private javax.swing.JTable tblReceta;
+    private javax.swing.JLabel titfecham;
+    private javax.swing.JLabel titfechap;
+    private javax.swing.JLabel titmedicom;
+    private javax.swing.JLabel titmedicop;
+    private javax.swing.JLabel titnombrem;
+    private javax.swing.JLabel titnombrep;
+    // End of variables declaration//GEN-END:variables
+}
